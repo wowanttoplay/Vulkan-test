@@ -42,9 +42,10 @@ cmake_install.cmake
 Makefile
 *.cmake
 
-# Dependencies
+# Dependencies (downloaded libraries)
 lib/
-external/
+external/*
+!external/imgui_cmake/
 
 # IDE
 .vscode/

@@ -14,14 +14,29 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 # Options
 option(ENABLE_VALIDATION "Enable Vulkan validation layers" ON)
 
-# External dependencies (to be populated)
-# For now, we'll add these as submodules or manually
-# - GLFW for windowing
-# - GLM for math
-# - Dear ImGui for UI
-# - VMA for memory management
+# ============================================================================
+# External Dependencies
+# ============================================================================
 
-# Core library (will be built incrementally)
+# GLFW - Window management
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(external/glfw)
+
+# GLM - Math library (header-only)
+add_subdirectory(external/glm)
+
+# VMA - Vulkan Memory Allocator (header-only)
+add_library(vma INTERFACE)
+target_include_directories(vma INTERFACE external/vma/include)
+
+# ImGui - UI library
+add_subdirectory(external/imgui_cmake)
+
+# ============================================================================
+# Source Files
+# ============================================================================
 set(CORE_SOURCES
     # Vulkan Core (YOU WILL IMPLEMENT THESE)
     src/Core/VulkanContext.cpp
@@ -30,11 +45,10 @@ set(CORE_SOURCES
     src/Core/VulkanBuffer.cpp
     src/Core/VulkanImage.cpp
 
-    # ECS System (ALREADY IMPLEMENTED FOR YOU)
+    # ECS System (ALREADY IMPLEMENTED)
     src/ECS/ECS.cpp
-    src/ECS/ComponentStorage.cpp
 
-    # Framework (ALREADY IMPLEMENTED FOR YOU)
+    # Framework (ALREADY IMPLEMENTED)
     src/Framework/Application.cpp
     src/Framework/Window.cpp
     src/Framework/Camera.cpp
@@ -45,9 +59,6 @@ set(CORE_SOURCES
     src/Rendering/ForwardPass.cpp
     src/Rendering/SimpleMaterial.cpp
     src/Rendering/Mesh.cpp
-
-    # UI (ALREADY IMPLEMENTED FOR YOU)
-    src/UI/SceneHierarchy.cpp
 )
 
 add_executable(VulkanSandbox
@@ -55,17 +66,23 @@ add_executable(VulkanSandbox
     ${CORE_SOURCES}
 )
 
+# ============================================================================
+# Include Directories
+# ============================================================================
 target_include_directories(VulkanSandbox PRIVATE
-    src
+    ${CMAKE_SOURCE_DIR}/src
     ${Vulkan_INCLUDE_DIRS}
 )
 
+# ============================================================================
+# Link Libraries
+# ============================================================================
 target_link_libraries(VulkanSandbox PRIVATE
     Vulkan::Vulkan
-    # GLFW will be added
-    # GLM will be added
-    # ImGui will be added
-    # VMA will be added
+    glfw
+    glm::glm
+    vma
+    imgui
 )
 
 if(ENABLE_VALIDATION)
