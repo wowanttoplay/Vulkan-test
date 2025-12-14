@@ -98,7 +98,7 @@ endif()
 # Shader compilation
 add_custom_target(CompileShaders
     COMMAND ${CMAKE_COMMAND} -E echo "Compiling shaders..."
-    COMMAND ${CMAKE_SOURCE_DIR}/tools/compile_shaders.bat
+    COMMAND ${CMAKE_SOURCE_DIR}/scripts/compile_shaders.bat
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
