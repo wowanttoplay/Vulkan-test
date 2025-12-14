@@ -3,9 +3,11 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 #include <optional>
+#include <memory>
 
 // Forward declarations
 class Window;
+class VulkanSwapchain;
 
 /**
  * ============================================================================
@@ -47,6 +49,7 @@ public:
     VkSurfaceKHR getSurface() const { return m_surface; }
     VkQueue getGraphicsQueue() const { return m_graphicsQueue; }
     VkQueue getPresentQueue() const { return m_presentQueue; }
+    VulkanSwapchain* getSwapchain() const { return m_swapchain.get(); }
 
     // Queue family indices
     struct QueueFamilyIndices {
@@ -189,5 +192,8 @@ private:
 
     QueueFamilyIndices m_queueFamilies;
 
+    Window* m_window = nullptr;
     bool m_enableValidation = true;
+
+    std::unique_ptr<VulkanSwapchain> m_swapchain;
 };

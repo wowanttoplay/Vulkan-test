@@ -1,90 +1,119 @@
 # Vulkan Learning Sandbox
 
-一个专注于学习Vulkan API和实验各种渲染效果的项目框架。
+A project framework for learning Vulkan API and experimenting with rendering techniques.
 
-## 项目理念
+## Project Philosophy
 
-**你学Vulkan，我搭框架**
-- 框架代码（ECS、UI、场景管理）已经完成
-- Vulkan代码提供带TODO的学习模板
-- 逐步引导你学习Vulkan核心概念
+**You learn Vulkan, I build the framework**
+- Framework code (ECS, UI, scene management) is complete
+- Vulkan code provides learning templates with TODOs
+- Step-by-step guidance for learning Vulkan core concepts
 
-## 当前状态
+## Quick Start
 
-🚧 **Phase 1 正在构建中...**
+### Prerequisites
 
-我正在为你创建：
-1. ✅ 完整的ECS系统
-2. ✅ 应用程序框架（窗口、输入、相机）
-3. ✅ 场景管理和UI
-4. ⏳ Vulkan学习模板（带详细注释的TODO）
+1. **Vulkan SDK** (1.3+) - [Download](https://vulkan.lunarg.com/sdk/home)
+2. **CMake** (3.20+) - [Download](https://cmake.org/download/)
+3. **Visual Studio 2022** with C++17 support
 
-## Phase 1 学习目标
+### Build & Run
 
-通过完成Phase 1，你将学会：
-1. **Vulkan初始化** - Instance, Physical Device, Logical Device
-2. **交换链** - Swapchain, Surface, Present modes
-3. **图形管线** - Shaders, Pipeline stages
-4. **缓冲区** - Vertex buffer, Index buffer, Staging buffer
-5. **渲染循环** - Command buffers, Synchronization
+```batch
+# Build the project
+build_project.bat
 
-## 项目结构
+# Run the application
+run_project.bat
+```
+
+The program will stop at the first TODO with a clear error message telling you what to implement.
+
+## Project Structure
 
 ```
 Vulkan-test/
 ├── src/
-│   ├── Core/          # Vulkan抽象层（你的学习重点）
-│   ├── ECS/           # Entity-Component-System（已完成）
-│   ├── Framework/     # 应用框架（已完成）
-│   ├── Rendering/     # 渲染系统
-│   └── Interaction/   # 点选系统（Phase 2）
-├── shaders/           # GLSL着色器
-├── external/          # 第三方库
-└── docs/              # 学习文档
+│   ├── Core/           # Vulkan abstractions (YOUR LEARNING FOCUS)
+│   ├── ECS/            # Entity-Component-System (complete)
+│   ├── Framework/      # Application framework (complete)
+│   └── Rendering/      # Rendering system
+├── shaders/            # GLSL shaders
+├── external/           # Third-party libraries
+├── scripts/            # Setup and utility scripts
+├── build_project.bat   # Build script
+└── run_project.bat     # Run script
 ```
 
-## 下一步
+## Scripts
 
-构建完成后，你将会看到：
-- `docs/PHASE1_GUIDE.md` - Phase 1详细学习指南
-- `src/Core/VulkanContext.h` - 带TODO的Vulkan初始化模板
-- `src/Core/VulkanSwapchain.h` - 交换链学习模板
-- 等等...
+| Script | Description |
+|--------|-------------|
+| `build_project.bat` | Compile shaders + CMake configure + Build |
+| `run_project.bat` | Run the application |
+| `scripts/compile_shaders.bat` | Compile GLSL shaders to SPIR-V |
+| `scripts/verify_vulkan_installation.bat` | Verify Vulkan SDK installation |
+| `scripts/install_cmake.bat` | Download and install CMake |
+| `scripts/download_vulkan_sdk.bat` | Open Vulkan SDK download page |
 
-每个Vulkan文件都包含：
-- 📝 详细的概念说明
-- ✅ TODO标记（你需要实现的部分）
-- 💡 提示和参考
-- 🔍 验证步骤
+## Learning Path
 
-## 构建说明
+### Phase 1: Render a Cube
+Implement TODOs in order:
 
-**依赖**:
-- Vulkan SDK (1.3+)
-- CMake (3.20+)
-- C++17编译器
+1. **VulkanContext.cpp** - Instance, Device, Queues
+2. **VulkanSwapchain.cpp** - Swapchain, Image Views
+3. **VulkanPipeline.cpp** - Graphics Pipeline
+4. **VulkanBuffer.cpp** - Vertex/Index Buffers
+5. **Renderer.cpp** - Render Loop
 
-**Windows构建**:
-```bash
-cmake -B build
-cmake --build build --config Debug
+Each TODO includes:
+- Concept explanation
+- Implementation hints
+- Reference links to vulkan-tutorial.com
+
+### Future Phases
+- Phase 2: Object Picking (Ray Casting)
+- Phase 3: Scene Editing (ImGui)
+- Phase 4: PBR Materials
+- Phase 5+: Advanced Effects (Shadows, Sky, Water)
+
+## Manual Build
+
+If you prefer manual commands:
+
+```batch
+# 1. Compile shaders
+scripts\compile_shaders.bat
+
+# 2. Configure CMake
+mkdir build
+cd build
+cmake ..
+
+# 3. Build
+cmake --build . --config Debug
+
+# 4. Run
+bin\Debug\VulkanSandbox.exe
 ```
 
-**运行**:
-```bash
-build\Debug\VulkanSandbox.exe
-```
+## Troubleshooting
 
-## 学习路径
+### "glslc not found"
+- Verify Vulkan SDK is installed: `scripts\verify_vulkan_installation.bat`
+- Restart your terminal after installing Vulkan SDK
 
-1. **Phase 1 (Week 1-2)**: 渲染一个立方体 → 学习Vulkan基础
-2. **Phase 2 (Week 2.5)**: 对象拾取 → 学习射线投射
-3. **Phase 3 (Week 3)**: 场景编辑 → 学习ImGui集成
-4. **Phase 4 (Week 4)**: PBR材质 → 学习高级着色
-5. **Phase 5+**: 一次一个效果（阴影、天空、水等）
+### "CMake not found"
+- Install CMake and add to PATH
+- Or use: `scripts\install_cmake.bat`
 
-## 联系方式
+### Build fails
+- Ensure Visual Studio 2022 with C++ workload is installed
+- Check that Vulkan SDK environment variables are set
 
-如有问题，请查看：
-- `docs/PHASE1_GUIDE.md` - 详细学习指南
-- `CLAUDE.md` - 项目架构说明
+## Resources
+
+- [Vulkan Tutorial](https://vulkan-tutorial.com/) - Main learning resource
+- `docs/PHASE1_GUIDE.md` - Detailed Phase 1 guide
+- `CLAUDE.md` - Project architecture notes

@@ -1,35 +1,48 @@
 #include "Core/VulkanContext.h"
+#include "Core/VulkanSwapchain.h"
 #include "Framework/Window.h"
 #include <stdexcept>
 #include <iostream>
+
+VulkanContext::VulkanContext() = default;
 
 VulkanContext::~VulkanContext() {
     cleanup();
 }
 
-void VulkanContext::initialize(Window* window, bool enableValidationLayers) {
+void VulkanContext::initialize(Window* window, bool enableValidation) {
     m_window = window;
-    m_enableValidationLayers = enableValidationLayers;
+    m_enableValidation = enableValidation;
 
     std::cout << "Initializing Vulkan Context..." << std::endl;
 
-    // TODO: 按顺序实现这5个函数
+    // TODO: Implement these 5 functions in order
     createInstance();
     setupDebugMessenger();
-    createSurface();
+    createSurface(m_window);
     pickPhysicalDevice();
     createLogicalDevice();
+
+    // Create swapchain
+    m_swapchain = std::make_unique<VulkanSwapchain>();
+    m_swapchain->initialize(m_physicalDevice, m_device, m_surface, m_window);
 
     std::cout << "Vulkan Context initialized successfully!" << std::endl;
 }
 
 void VulkanContext::cleanup() {
+    // Cleanup swapchain first
+    if (m_swapchain) {
+        m_swapchain->cleanup();
+        m_swapchain.reset();
+    }
+
     if (m_device != VK_NULL_HANDLE) {
         vkDestroyDevice(m_device, nullptr);
         m_device = VK_NULL_HANDLE;
     }
 
-    if (m_enableValidationLayers && m_debugMessenger != VK_NULL_HANDLE) {
+    if (m_enableValidation && m_debugMessenger != VK_NULL_HANDLE) {
         auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
             m_instance, "vkDestroyDebugUtilsMessengerEXT");
         if (func != nullptr) {
@@ -79,7 +92,7 @@ void VulkanContext::createInstance() {
 // [TODO 2] SETUP DEBUG MESSENGER
 // ============================================================================
 void VulkanContext::setupDebugMessenger() {
-    if (!m_enableValidationLayers) return;
+    if (!m_enableValidation) return;
 
     throw std::runtime_error(
         "\n"
@@ -106,7 +119,7 @@ void VulkanContext::setupDebugMessenger() {
 // ============================================================================
 // [TODO 3] CREATE SURFACE
 // ============================================================================
-void VulkanContext::createSurface() {
+void VulkanContext::createSurface(Window* window) {
     throw std::runtime_error(
         "\n"
         "========================================\n"
@@ -185,13 +198,13 @@ void VulkanContext::createLogicalDevice() {
 // Helper Functions
 // ============================================================================
 
-bool VulkanContext::checkValidationLayerSupport() {
+bool VulkanContext::checkValidationLayerSupport() const {
     // TODO: Implement validation layer check
     // This is needed for setupDebugMessenger
     return true;  // Placeholder
 }
 
-std::vector<const char*> VulkanContext::getRequiredExtensions() {
+std::vector<const char*> VulkanContext::getRequiredExtensions() const {
     // TODO: Implement extension enumeration
     // This is needed for createInstance
     return {};  // Placeholder

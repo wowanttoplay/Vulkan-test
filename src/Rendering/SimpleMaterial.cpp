@@ -2,6 +2,7 @@
 #include "Core/VulkanPipeline.h"
 #include "Rendering/Mesh.h"
 #include <imgui.h>
+#include <stdexcept>
 
 SimpleMaterial::SimpleMaterial() {
 }

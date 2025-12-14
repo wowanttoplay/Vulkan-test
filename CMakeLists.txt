@@ -4,6 +4,11 @@ project(VulkanSandbox VERSION 1.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# MSVC UTF-8 support for Chinese comments
+if(MSVC)
+    add_compile_options(/utf-8)
+endif()
+
 # Find Vulkan SDK
 find_package(Vulkan REQUIRED)
 
@@ -44,6 +49,7 @@ set(CORE_SOURCES
     src/Core/VulkanPipeline.cpp
     src/Core/VulkanBuffer.cpp
     src/Core/VulkanImage.cpp
+    src/Core/vma_impl.cpp
 
     # ECS System (ALREADY IMPLEMENTED)
     src/ECS/ECS.cpp

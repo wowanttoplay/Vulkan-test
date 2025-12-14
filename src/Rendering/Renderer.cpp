@@ -1,6 +1,7 @@
 #include "Rendering/Renderer.h"
 #include "Rendering/ForwardPass.h"
 #include "Core/VulkanContext.h"
+#include "Core/VulkanSwapchain.h"
 #include "Framework/Camera.h"
 #include "ECS/ECS.h"
 #include <stdexcept>

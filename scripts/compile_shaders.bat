@@ -1,28 +1,28 @@
 @echo off
 REM ============================================================================
-REM Shader编译脚本
+REM Shader Compilation Script
 REM ============================================================================
 REM
-REM 功能：
-REM - 将GLSL着色器编译成SPIR-V
-REM - 自动创建输出目录
-REM - 编译所有.vert和.frag文件
+REM Features:
+REM - Compiles GLSL shaders to SPIR-V
+REM - Auto-creates output directory
+REM - Compiles all .vert and .frag files
 REM
-REM 使用方法：
-REM   双击运行或在命令行执行：tools\compile_shaders.bat
+REM Usage:
+REM   Double-click or run: tools\compile_shaders.bat
 REM
-REM 要求：
-REM - Vulkan SDK已安装
-REM - glslc在PATH中（通常随Vulkan SDK安装）
+REM Requirements:
+REM - Vulkan SDK installed
+REM - glslc in PATH (comes with Vulkan SDK)
 
 echo ========================================
 echo Compiling shaders...
 echo ========================================
 
-REM 创建输出目录
+REM Create output directory
 if not exist shaders\compiled mkdir shaders\compiled
 
-REM 编译顶点着色器
+REM Compile vertex shaders
 echo Compiling vertex shaders...
 for %%f in (shaders\*.vert) do (
     echo   %%f -^> shaders\compiled\%%~nf.vert.spv
@@ -34,7 +34,7 @@ for %%f in (shaders\*.vert) do (
     )
 )
 
-REM 编译片段着色器
+REM Compile fragment shaders
 echo Compiling fragment shaders...
 for %%f in (shaders\*.frag) do (
     echo   %%f -^> shaders\compiled\%%~nf.frag.spv
@@ -52,5 +52,5 @@ echo All shaders compiled successfully!
 echo ========================================
 echo.
 
-REM 保持窗口打开
+REM Keep window open
 pause
