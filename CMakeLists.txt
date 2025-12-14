@@ -1,4 +1,14 @@
 cmake_minimum_required(VERSION 3.20)
+
+# Force x64 architecture (Vulkan SDK is 64-bit only)
+if(CMAKE_GENERATOR_PLATFORM)
+    if(NOT CMAKE_GENERATOR_PLATFORM STREQUAL "x64")
+        message(FATAL_ERROR "This project requires x64 architecture. Please configure with -A x64")
+    endif()
+elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+    message(FATAL_ERROR "This project requires 64-bit build. Vulkan SDK libraries are x64 only.")
+endif()
+
 project(VulkanSandbox VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
